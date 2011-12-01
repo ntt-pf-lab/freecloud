@@ -15,6 +15,14 @@ Manager node
 Node
 - OpenStack Nodes
 
+Requirement
+===============================
+Manage node -> ubuntu 11.10
+
+Host
+ IPMI support
+ PXE boot support and setting the PXE as default
+
 Installation
 ================================
 1. git clone git@github.com:ntt-pf-lab/freecloud.git
@@ -36,6 +44,8 @@ cd freecloud/tools
 
 Tools
 ================================
+- List of IPs
+./ip_list.sh 
 
 - Power status of nodes
 tools/power_status.sh

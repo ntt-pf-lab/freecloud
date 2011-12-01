@@ -11,9 +11,8 @@ dpkg -l syslinux || apt-get install -y syslinux
 
 DEST_DIR=${1:-/tmp}/tftpboot
 PXEDIR=${PXEDIR:-/opt/ramstack/pxe}
-PROGDIR=`dirname $0`
 BASE_HOSTNAME=${BASE_HOSTNAME:-freecloud}
-
+TOOLS_DIR=`pwd`
 # Clean up any resources that may be in use
 cleanup() {
     set +o errexit
@@ -31,7 +30,6 @@ cleanup() {
 trap cleanup SIGHUP SIGINT SIGTERM SIGQUIT EXIT
 
 # Keep track of the current directory
-TOOLS_DIR=$PROGDIR
 TOP_DIR=$PROGDIR
 
 mkdir -p $DEST_DIR/pxelinux.cfg
@@ -50,10 +48,7 @@ MENU TITLE devstack PXE Boot Menu
 
 EOF
 
-cd $TOOLS_DIR
-pwd
-./gen_pxe_boot_setting.pl $DEST_DIR/pxelinux.cfg $BASE_HOSTNAME
-cd $TOP_DIR
+$TOOLS_DIR/gen_pxe_boot_setting.pl $DEST_DIR/pxelinux.cfg $BASE_HOSTNAME
 
 # Setup devstack boot
 mkdir -p $DEST_DIR/ubuntu
