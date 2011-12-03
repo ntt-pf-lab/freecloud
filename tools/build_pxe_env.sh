@@ -13,6 +13,8 @@ DEST_DIR=${1:-/tmp}/tftpboot
 PXEDIR=${PXEDIR:-/opt/ramstack/pxe}
 BASE_HOSTNAME=${BASE_HOSTNAME:-freecloud}
 TOOLS_DIR=`pwd`
+PROGDIR=`pwd`
+ 
 # Clean up any resources that may be in use
 cleanup() {
     set +o errexit
@@ -47,7 +49,7 @@ timeout 0
 MENU TITLE devstack PXE Boot Menu
 
 EOF
-
+echo "$TOOLS_DIR/gen_pxe_boot_setting.pl $DEST_DIR/pxelinux.cfg $BASE_HOSTNAME"
 $TOOLS_DIR/gen_pxe_boot_setting.pl $DEST_DIR/pxelinux.cfg $BASE_HOSTNAME
 
 # Setup devstack boot
@@ -114,5 +116,5 @@ LABEL local
     MENU LABEL ^Local disk
     LOCALBOOT 0
 EOF
-
+chmod 0644 $DEST_DIR/ubuntu/*
 trap cleanup SIGHUP SIGINT SIGTERM SIGQUIT EXIT

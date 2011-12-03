@@ -38,6 +38,8 @@ trap cleanup SIGHUP SIGINT SIGTERM SIGQUIT EXIT
 # Output dest image
 DEST_FILE=$1
 
+DEVSTACK_DIR="../devstack/"
+
 # Keep track of the current directory
 TOOLS_DIR=$(dirname "$0")
 TOP_DIR=$TOOLS_DIR
@@ -117,13 +119,15 @@ sudo hostname localhost
 #Install chef client
 chroot $MNT_DIR echo "deb http://apt.opscode.com/ `lsb_release -cs`-0.10 main" |chroot $MNT_DIR sudo tee /etc/apt/sources.list.d/opscode.list
 chroot $MNT_DIR sudo mkdir -p /etc/apt/trusted.gpg.d
-chroot $MNT_DIR gpg --keyserver keys.gnupg.net --recv-keys 83EF826A
-chroot $MNT_DIR gpg --export packages@opscode.com |chroot $MNT_DIR sudo tee /etc/apt/trusted.gpg.d/opscode-keyring.gpg > /dev/null
+cp /etc/apt/trusted.gpg.d/opscode-keyring.gpg $MNT_DIR/etc/apt/trusted.gpg.d/opscode-keyring.gpg
 chroot $MNT_DIR apt-get update -y --force-yes  
-chroot $MNT_DIR sudo apt-get install opscode-keyring
-chroot $MNT_DIR sudo apt-get upgrade -y --force-yes  
-chroot $MNT_DIR sudo apt-get install chef
+#chroot $MNT_DIR sudo apt-get install opscode-keyring
+#chroot $MNT_DIR sudo apt-get upgrade -y --force-yes  
+chroot $MNT_DIR sudo apt-get install chef -y
+chroot $MNT_DIR sudo /etc/init.d/chef-client stop
 cp /etc/chef/validation.pem $MNT_DIR/etc/chef/validation.pem
+chroot $MNT_DIR sudo apt-get install sysv-rc-conf
+chroot $MNT_DIR sudo sysv-rc-conf chef-client on
 
 # git clone only if directory doesn't exist already.  Since ``DEST`` might not
 # be owned by the installation user, we create the directory and change the
@@ -165,7 +169,7 @@ git_clone $CITEST_REPO $DEST/openstack-integration-tests $CITEST_BRANCH
 
 # Use this version of devstack
 rm -rf $MNT_DIR/$DEST/devstack
-cp -pr $TOP_DIR $MNT_DIR/$DEST/devstack
+cp -pr $DEVSTACK_DIR $MNT_DIR/$DEST/devstack
 chroot $MNT_DIR chown -R stack $DEST/devstack
 
 # Configure host network for DHCP
@@ -202,7 +206,7 @@ echo >> $DEST/run.sh.log
 echo "All done! Time to start clicking." >> $DEST/run.sh.log
 EOF
 
-echo "stack ALL=(ALL) NOPASSWD:ALL" >> $MNT_DIR/etc/sudoers
+cp ../etc/sudoers $MNT_DIR/etc/sudoers
 
 # Make the run.sh executable
 chmod 755 $RUN_SH
