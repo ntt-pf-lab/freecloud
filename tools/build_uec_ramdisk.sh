@@ -65,7 +65,7 @@ set -o xtrace
 if [ ! -e $TOP_DIR/localrc ]; then
     echo "You must have a localrc with ALL necessary passwords defined before proceeding."
     echo "See stack.sh for required passwords."
-    exit 1
+G    exit 1
 fi
 
 # Install deps if needed
@@ -207,10 +207,17 @@ echo "All done! Time to start clicking." >> $DEST/run.sh.log
 EOF
 
 cp ../etc/sudoers $MNT_DIR/etc/sudoers
+cp ../etc/rc.local $MNT_DIR/etc/rc.local
 
 # Make the run.sh executable
 chmod 755 $RUN_SH
 chroot $MNT_DIR chown stack $DEST/run.sh
+
+#To fix ISO file problem
+cp /tmp/hoge $MNT_DIR/tmp/hoge
+cat `Date` > $MNT_DIR/tmp/fuga
+
+sync;sync;sync;
 
 umount -l $MNT_DIR/dev
 umount -l $MNT_DIR

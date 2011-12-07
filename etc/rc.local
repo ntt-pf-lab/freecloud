@@ -1,0 +1,32 @@
+dhclient eth0
+ntpdate -b ntp.ubuntu.com
+echo "-----BEGIN RSA PRIVATE KEY-----
+MIIEpQIBAAKCAQEA2p3xByKcL8P4prMInSH/B/KDaPZ9mbaDgTwcnKETkjIWsCGj
+lkxQtwvW29A7Zjy/jme5Jv7y4sQg1ay0k8RhOAREaNDbwWjoTmPab+VKcaGGeDmz
+DtydhtuUQk8gbMqWxv6u20srOpoamdYMtIMGKYEtrZ96a5rr7D/Rz/RytqXOuuVK
+2WlzynrCjtMHpt8dwrHXPWY8+RT3w9lc4RCCoBwkt04WeMCEiJBHNmC6gejODJDm
+6yeh1Mh/s6EpZJXwsCvxapl8Ia2IGJhD6mRmay8WveHimejPPeIrxvI0oZnZwm85
+OZw0yOz6flC5wGe5i+Fkc05grR/oDgJILOo3jQIDAQABAoIBAQCJtgI1j2y5fgYs
+5AxiBx9Cn1Z+EP9vi5PtHbOcSq8sYZb/HkGRFMOnerK+xr4UGeJEzzvHv8O6aveQ
+AfnCN2tSQQXizOYRQIdNkgLwh4xMZgZxx07u5rPoVntfBb8UKM2vzpDRHNm/UYG+
+NCLOttZz4KaofxQ7olxI9q6xA3gbas6lLrDJq4r5ZIF+ai+qJwL8qbfVD3+gY7rH
+CxKCSj4eSfUv1EASlYlfw0xYWV90CUPx69Z8agdCXl7Fa+xcl7Sh/e/BCmFJj6fi
+4Q1Ue87Zwq1XaXh1tokM8N2gztVPkjDl+i1RPdXvN9PMtaIv85hlpcecTz50nF3Z
+QIEHTkQBAoGBAPdu4Q4c4PrlE1v6JTZJ9LSA71jkyj/70v7HcEhR8fED7VewBxOS
+szX2yko99pklqjHpQuEiOxvGB1nZBldWu6RMVCibKnOCzCAHjuSaer4Nm/cN8FPm
+/1X8Cwdkn6evw/AQ25XoRGBLGrIyAj5MQHWGRlh3QcxvlmbTZw/YpuKNAoGBAOIv
+ppBJr8oX/VAgiMv421KxblRCuT2i7ia7n0/LwVuG6Z5UStaH4m7J2hqWyUTQ0IjI
+eoZ+Sl3vHmfERsjZNg+VequXQdNcGFIXvYmrJg3nrqy0uDd17jAeU8SvPPBiDC6W
+OrmKNmFWND23Nfnj+RPn823y8MyyMxPE/OXklekBAoGBALuo66XRf0yqerFSmfB/
+zMkt1NndxAsdChzT1DP1eoLqEJNl3SgaJjNydmAyeJoUd+2c1W18kcnxuleJgwaw
+sGXewiF99YdgF0LfmJ+HDjqghb6tYq2vz84993tm9LOwWfH0RyZ934YM0DWAOjVX
+jbfU2/tyj4PmyfI4ubzJ+2BtAoGABa5IsqsHHT5JAHAwv166s3L9YGRknqWu8Y4Y
+zDpD2vaie3WGg6jaCQpMzgond/D+q9DNMv+NApr02opVdMnvz6hjclfUMWjIu5cZ
+DZIc3JCLFI9daRcvKko4tGHqV+c+gxUG2I4eG4e8vCgT1Pji0psqxAIsBhgbrE1w
+RJ3fHgECgYEA4pRnnMj9uY1IN7XG5Y0ebtaGV6Bt/DAOtz4YCkjd6Ku1VjL3M23A
+6mp5o64rFF3Vw29r41OOTfVm7CELRvZ914xqtMZBJ0ePdhn47zGP2+eHD2qWzFau
+HgEZrN/rfFfoU+UkFvYWTHYEP67O30U6bw5wi48GYmOoBUjX6OkKWWc=
+-----END RSA PRIVATE KEY-----" > /etc/chef/validation.pem
+sudo echo `date` > /opt/stack/run_log
+sudo chef-client -N `hostname` > /opt/stack/chef-log
+
